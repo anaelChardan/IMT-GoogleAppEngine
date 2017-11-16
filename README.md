@@ -1,14 +1,25 @@
 # appengine-java-quickstart
 
-## Launch
+## Usage
 
-Use the Docker image `zenika/alpine-appengine-java` for that
+### Clone 
+
+Clone this repository using
+
+```
+git clone https://github.com/jlandure/appengine-java-quickstart
+cd appengine-java-quickstart
+```
+
+### Launch
+
+Launch the devserver using the Docker image `zenika/alpine-appengine-java`
 
 ```
 docker run -it -v ~/.m2:/root/.m2 -v $(pwd):/usr/src/app -w /usr/src/app -p 8080:8080 zenika/alpine-appengine-java
 ```
 
-## Check
+### Check
 
 Open your browser to `http://localhost:8080/hello` and see something like 
 
