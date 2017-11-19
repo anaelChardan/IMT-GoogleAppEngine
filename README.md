@@ -16,7 +16,7 @@ cd appengine-java-quickstart
 Launch the devserver using the Docker image `zenika/alpine-appengine-java`
 
 ```
-docker run -it -v ~/.m2:/root/.m2 -v $(pwd):/usr/src/app -w /usr/src/app -p 8080:8080 zenika/alpine-appengine-java
+docker run --rm -it -h localhost -v ~/.m2:/root/.m2 -v $(pwd):/usr/src/app -w /usr/src/app -p 8080:8080 zenika/alpine-appengine-java
 ```
 
 ### Check
