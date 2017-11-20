@@ -1,6 +1,7 @@
 package com.zenika.zencontact.resource;
 
 import com.zenika.zencontact.domain.User;
+import com.zenika.zencontact.domain.blob.PhotoService;
 import com.zenika.zencontact.persistence.objectify.UserDaoObjectify;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -31,6 +32,8 @@ public class UserResourceWithId extends HttpServlet {
         return;
     }
     User user = UserDaoObjectify.getInstance().get(id);
+    PhotoService.getInstance().prepareUploadUrl(user);
+    PhotoService.getInstance().prepareDownloadUrl(user);
     response.setContentType("application/json; charset=utf-8");
     response.getWriter().println(new Gson().toJson(user));
   }
