@@ -50,7 +50,7 @@ gcloud config set project YOUR_PROJECT_ID
 ```
 
 ```
-mvn -Dapp.deploy.version=v0 appengine:deploy
+mvn -Dapp.deploy.version=v2-bis appengine:deploy
 ```
 
 -> Here you have your app running

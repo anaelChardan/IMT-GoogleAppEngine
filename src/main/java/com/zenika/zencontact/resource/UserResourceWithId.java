@@ -1,7 +1,8 @@
 package com.zenika.zencontact.resource;
 
 import com.zenika.zencontact.domain.User;
-import com.zenika.zencontact.persistence.UserRepository;
+import com.zenika.zencontact.persistence.datastore.UserDaoDataStore;
+import com.zenika.zencontact.persistence.inmemory.UserRepository;
 import com.google.gson.Gson;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -32,13 +33,7 @@ public class UserResourceWithId extends HttpServlet {
         response.setStatus(404);
         return;
     }
-    Iterable<User> users = UserRepository.USERS;
-    Predicate<User> getUserById = new Predicate<User>() {
-        public boolean apply(User user) {
-            return user.id == id;
-        }
-    };
-    User user = Iterables.find(users, getUserById, null);
+    User user = UserDaoDataStore.getInstance().get(id);
     response.setContentType("application/json; charset=utf-8");
     response.getWriter().println(new Gson().toJson(user));
   }
@@ -52,13 +47,7 @@ public class UserResourceWithId extends HttpServlet {
         return;
     }
     User user = new Gson().fromJson(request.getReader(), User.class);
-    Iterable<User> users = UserRepository.USERS;
-    Predicate<User> getUserById = new Predicate<User>() {
-        public boolean apply(User user) {
-            return user.id == id;
-        }
-    };
-    UserRepository.USERS.set(Iterables.indexOf(users, getUserById), user);
+    UserDaoDataStore.getInstance().save(user);
     response.setContentType("application/json; charset=utf-8");
     response.getWriter().println(new Gson().toJson(user));
   }
@@ -71,13 +60,7 @@ public class UserResourceWithId extends HttpServlet {
         response.setStatus(404);
         return;
     }
-    Iterable<User> users = UserRepository.USERS;
-    Predicate<User> getUserById = new Predicate<User>() {
-        public boolean apply(User user) {
-            return user.id == id;
-        }
-    };
-    UserRepository.USERS.remove(Iterables.indexOf(users, getUserById));
+    UserDaoDataStore.getInstance().delete(id);
   }
 }
 

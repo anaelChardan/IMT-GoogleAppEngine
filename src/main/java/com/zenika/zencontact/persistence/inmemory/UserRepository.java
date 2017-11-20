@@ -1,4 +1,4 @@
-package com.zenika.zencontact.persistence;
+package com.zenika.zencontact.persistence.inmemory;
 
 import com.zenika.zencontact.domain.User;
 
