@@ -1,5 +1,9 @@
 # appengine-java-quickstart
 
+## Why?
+
+Lesson at IMT by Julien Landuré from Zenika
+
 ## Usage
 
 ### Clone 
