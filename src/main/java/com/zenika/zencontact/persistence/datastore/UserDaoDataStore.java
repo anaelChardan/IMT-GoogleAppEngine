@@ -5,7 +5,10 @@ import com.google.appengine.api.datastore.*;
 import com.zenika.zencontact.domain.User;
 import com.zenika.zencontact.persistence.UserDao;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class UserDaoDataStore implements UserDao {
     private static UserDaoDataStore INSTANCE = new UserDaoDataStore();
@@ -24,25 +27,12 @@ public class UserDaoDataStore implements UserDao {
 
     @Override
     public long save(User contact) {
-        Entity entity = new Entity(USER_KEY);
-        if (contact.id != null) {
-            Key k = KeyFactory.createKey(USER_KEY, contact.id);
-            try {
-                entity = datastore.get(k);
-            } catch (EntityNotFoundException ignored) {
-                return 0L;
-            }
+        Entity entity = fromUser(contact);
+
+        if (null == entity) {
+            return 0L;
         }
 
-        entity.setProperty(firstName, contact.firstName);
-        entity.setProperty(lastName, contact.lastName);
-        entity.setProperty(email, contact.email);
-
-        if (null != contact.birthdate) {
-            entity.setProperty(birthdate, contact.birthdate);
-        }
-
-        entity.setProperty(notes, contact.notes);
         Key key = datastore.put(entity);
 
         return key.getId();
@@ -56,11 +46,62 @@ public class UserDaoDataStore implements UserDao {
 
     @Override
     public User get(Long id) {
-        return null;
+        Entity entity;
+        Key k = KeyFactory.createKey(USER_KEY, id);
+        try {
+            entity = datastore.get(k);
+        } catch (EntityNotFoundException ignored) {
+            return null;
+        }
+
+        return fromEntity(entity);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        Query q = new Query(USER_KEY)
+                .addProjection(new PropertyProjection(firstName, String.class))
+                .addProjection(new PropertyProjection(lastName, String.class))
+                .addProjection(new PropertyProjection(email, String.class))
+                .addProjection(new PropertyProjection(notes, String.class));
+
+        PreparedQuery pq = datastore.prepare(q);
+
+        return StreamSupport.stream(pq.asIterable().spliterator(), false).map(this::fromEntity).collect(Collectors.toList());
+    }
+
+    private Entity fromUser(User user) {
+        Entity entity = new Entity(USER_KEY);
+
+        if (user.id != null) {
+            Key k = KeyFactory.createKey(USER_KEY, user.id);
+            try {
+                entity = datastore.get(k);
+            } catch (EntityNotFoundException ignored) {
+                return null;
+            }
+        }
+
+        entity.setProperty(firstName, user.firstName);
+        entity.setProperty(lastName, user.lastName);
+        entity.setProperty(email, user.email);
+
+        if (null != user.birthdate) {
+            entity.setProperty(birthdate, user.birthdate);
+        }
+
+        entity.setProperty(notes, user.notes);
+
+        return entity;
+    }
+
+    private User fromEntity(Entity entity) {
+        return User.create()
+                .id(entity.getKey().getId())
+                .firstName((String) entity.getProperty(firstName))
+                .lastName((String) entity.getProperty(lastName))
+                .email((String) entity.getProperty(email))
+                .birthdate((Date) entity.getProperty(birthdate))
+                .notes((String) entity.getProperty(notes));
     }
 }
