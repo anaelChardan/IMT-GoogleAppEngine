@@ -1,0 +1,8 @@
+<queue-entries>
+    <queue>
+        <name>mail-queue</name>
+        <rate>2000/d</rate>	<!-- Fréquence, ici 2000 par jour -->
+        <bucket-size>10</bucket-size> <!-- Réduire la fréquence
+	de traitement si beaucoup de tâches arrivent en même temps  -->
+    </queue>
+</queue-entries>

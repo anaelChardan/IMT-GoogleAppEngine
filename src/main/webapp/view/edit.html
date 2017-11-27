@@ -1,0 +1,98 @@
+<div my-hero-unit>Edit a contact</div>
+<div class="row">
+    <div class="span12">
+        <div class="well">
+            <h2>Edit contact</h2>
+
+            <form action="" method="post" class="form-horizontal" name="contactForm">
+                <div class="control-group {{!contactForm.firstName.$error.required || 'error'}}">
+                    <label for="firstName" class="control-label">First name</label>
+
+                    <div class="controls">
+                        <input type="text" name="firstName" id="firstName" class="input-xlarge" data-ng-model="contact.firstName" required=""/><br/>
+                        <span class="help-inline" data-ng-show="contactForm.firstName.$error.required">Required</span>
+                    </div>
+                </div>
+                <div class="control-group {{!contactForm.lastName.$error.required || 'error'}}">
+                    <label for="lastName" class="control-label">Last name</label>
+
+                    <div class="controls">
+                        <input type="text" name="lastName" id="lastName" class="input-xlarge" data-ng-model="contact.lastName" required=""/><br/>
+                        <span class="help-inline" data-ng-show="contactForm.lastName.$error.required">Required</span>
+                    </div>
+                </div>
+                <div class="control-group {{!contactForm.email.$error.required || 'error'}}">
+                    <label for="email" class="control-label">Email</label>
+
+                    <div class="controls">
+                        <input type="text" name="email" id="email" class="input-xlarge" data-ng-model="contact.email" required=""/><br/>
+                        <span class="help-inline" data-ng-show="contactForm.email.$error.required">Required</span>                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="notes" class="control-label">Notes</label>
+
+                    <div class="controls">
+                        <textarea rows="3" name="notes" id="notes" class="input-xlarge" data-ng-model="contact.notes"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" value="Save" class="btn btn-primary" data-ng-click="saveContact(contact)" data-ng-disabled="contactForm.$invalid"/>
+                        <a href="#/list" class="btn btn-link">Cancel</a>
+                        <button class="btn btn-danger" data-ng-click="deleteContact(contact)">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 
+<div class="row">
+    <div class="span12">
+        <div class="well">
+            <h2>Add File</h2>
+            <form class="form-group"
+                  name="upload"
+                  novalidate>
+
+                <div class="col-sm-9 form-control-static">
+                	<a href="{{contact.downloadURL}}" target="_blank" ng-show="contact.downloadURL">Download the file</a>
+                    <br/><br/>
+                    <div class="button btn btn-primary" ngf-select ngf-change="uploadContactFile($files)">Select File</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+-->
+<!--
+<div class="row" ng-show="email">
+    <div class="span12">
+        <div class="well">
+            <h2>Send an email</h2>
+
+            <form action="" method="post" class="form-horizontal" name="emailForm">
+                <div class="control-group">
+                    <label for="subject" class="control-label">Subject</label>
+
+                    <div class="controls">
+                        <input type="text" name="subject" id="subject" class="input-xlarge" data-ng-model="email.subject" required=""/><br/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="body" class="control-label">Body</label>
+
+                    <div class="controls">
+                        <textarea rows="3" name="body" id="body" class="input-xlarge" data-ng-model="email.body"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" value="Send" class="btn btn-primary" data-ng-click="sendEmail(contact)" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+-->
