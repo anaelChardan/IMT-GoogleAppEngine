@@ -28,7 +28,7 @@ public class UserResource extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         List<User> contacts = (List<User>) cache.get(CONTACTS_CACHE_KEY);
-        if (contacts.isEmpty()) {
+        if (null == contacts) {
             contacts = UserDaoObjectify.getInstance().getAll();
             boolean isCached = contacts.size() > 0
                     && cache.put(
@@ -46,7 +46,7 @@ public class UserResource extends HttpServlet {
             throws IOException {
         User user = new Gson().fromJson(request.getReader(), User.class);
         user.id(UserDaoObjectify.getInstance().save(user));
-
+        cache.delete(CONTACTS_CACHE_KEY);
         response.setContentType("application/json; charset=utf-8");
         response.setStatus(201);
         response.getWriter().println(new Gson().toJson(user));
